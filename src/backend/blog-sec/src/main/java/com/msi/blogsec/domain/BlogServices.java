@@ -1,5 +1,6 @@
 package com.msi.blogsec.domain;
 
+import com.msi.blogsec.api.exception.ResourceNotFoundException;
 import com.msi.blogsec.data.Post;
 import com.msi.blogsec.data.PostRepository;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,7 @@ public class BlogServices {
 
     public Post fn(String id){
 
-        return  postRepository.findById(id).orElseThrow(RuntimeException::new);
+        return  postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
     }
 
 
