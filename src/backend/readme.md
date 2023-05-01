@@ -5,10 +5,10 @@
 * Java 17 or greather
 ## Instructions
 1. Compile api using mavem 
-```bash 
+```bash
 ./mvnw clean package -DskipTests
 ```
 2. run docker-compose
-```bash 
+```bash
 docker-compose up --build --remove-orphans
 ```
