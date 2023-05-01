@@ -45,8 +45,8 @@ services:
       - "8443:8443"
     restart: on-failure
     volumes:
-      - ./containers-config/auth/data:/opt/jboss/keycloak/standalone/data/
-      - ./containers-config/auth/themes:/opt/jboss/keycloak/themes
+      - ./containers-config/auth/data:/opt/keycloak/data
+      - ./containers-config/auth/themes:/opt/keycloak/themes
     networks:
       - backend
 

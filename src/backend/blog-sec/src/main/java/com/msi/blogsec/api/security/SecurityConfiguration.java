@@ -1,10 +1,16 @@
 package com.msi.blogsec.api.security;
+import com.msi.blogsec.api.security.helpers.KeycloakRealmRoleConverter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.oauth2.core.DelegatingOAuth2TokenValidator;
+import org.springframework.security.oauth2.core.OAuth2TokenValidator;
+import org.springframework.security.oauth2.jwt.*;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.zalando.problem.spring.web.advice.security.SecurityProblemSupport;
 
@@ -21,9 +27,13 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
-//@Import(SecurityProblemSupport::class)
+@Import(SecurityProblemSupport.class)
 public class SecurityConfiguration {
-    //private SecurityProblemSupport problemSupport;
+    private final SecurityProblemSupport problemSupport;
+
+    public SecurityConfiguration(SecurityProblemSupport problemSupport) {
+        this.problemSupport = problemSupport;
+    }
 
     @Value("${auth.audience}")
     private String audience;
@@ -40,10 +50,37 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests((authz) -> authz
-                        .anyRequest().permitAll()
+                        .requestMatchers("/").permitAll()
+                        .anyRequest().authenticated()
                 )
-                .httpBasic(withDefaults());
+                .oauth2ResourceServer()
+                .authenticationEntryPoint(problemSupport)
+                .accessDeniedHandler(problemSupport)
+                .jwt().decoder(jwtDecoder())
+                .jwtAuthenticationConverter(jwtAuthenticationConverter());
+
         return http.build();
+    }
+
+    public JwtAuthenticationConverter jwtAuthenticationConverter() {
+        JwtAuthenticationConverter jwtConverter = new JwtAuthenticationConverter();
+        jwtConverter.setJwtGrantedAuthoritiesConverter(new KeycloakRealmRoleConverter(roleForRealm, resourceName));
+
+        return jwtConverter;
+    }
+
+
+    @Bean
+    public JwtDecoder jwtDecoder() {
+        NimbusJwtDecoder jwtDec = (NimbusJwtDecoder) JwtDecoders.fromOidcIssuerLocation(issuer);
+
+        OAuth2TokenValidator<Jwt> audienceValidator = new AudienceValidator(audience);
+        OAuth2TokenValidator<Jwt> withIssuer = JwtValidators.createDefaultWithIssuer(issuer);
+        OAuth2TokenValidator<Jwt> withAudience = new DelegatingOAuth2TokenValidator<>(withIssuer, audienceValidator);
+
+        jwtDec.setJwtValidator(withAudience);
+
+        return jwtDec;
     }
 
 
