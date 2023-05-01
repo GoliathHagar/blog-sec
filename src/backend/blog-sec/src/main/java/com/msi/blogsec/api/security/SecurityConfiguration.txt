@@ -1,0 +1,136 @@
+/*
+package cv.tryon.pay.api.security
+
+import cv.tryon.pay.api.security.helpers.KeycloakRealmRoleConverter
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Import
+import org.springframework.http.HttpMethod
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity
+import org.springframework.security.config.annotation.web.builders.HttpSecurity
+import org.springframework.security.config.annotation.web.builders.WebSecurity
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
+import org.springframework.security.oauth2.core.DelegatingOAuth2TokenValidator
+import org.springframework.security.oauth2.core.OAuth2TokenValidator
+import org.springframework.security.oauth2.jwt.*
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter
+import org.springframework.web.cors.CorsConfiguration
+import org.springframework.web.cors.CorsConfigurationSource
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource
+import org.zalando.problem.spring.web.advice.security.SecurityProblemSupport
+
+
+@EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
+@Import(SecurityProblemSupport::class)
+class SecurityConfiguration(private  val problemSupport: SecurityProblemSupport) : WebSecurityConfigurerAdapter() {
+
+    @Value("\${auth.audience}")
+    private val audience : String = ""
+
+    @Value("\${spring.security.oauth2.resourceserver.jwt.issuer-uri}")
+    private val issuer : String = ""
+
+    @Value("\${auth.resource-name}")
+    protected var resourceName: String = ""
+
+    @Value("\${auth.for-realm}")
+    protected var roleForRealm = true
+
+
+    override fun configure(http: HttpSecurity?) {
+
+        http?.authorizeRequests()
+            ?.mvcMatchers("/")?.anonymous()
+            //?.antMatchers("/api/transaction/paypal/capture")?.permitAll()
+            ?.antMatchers("/api/swagger-ui/**")?.permitAll()
+            //?.anyRequest()?.fullyAuthenticated()
+            ?.and()?.csrf()?.ignoringAntMatchers("/api/transaction/paypal/capture")
+            ?.and()?.cors()?.configurationSource(corsConfigurationSource())
+            ?.and()?.oauth2ResourceServer()
+            ?.authenticationEntryPoint(problemSupport)
+            ?.accessDeniedHandler(problemSupport)
+            ?.jwt()?.decoder(jwtDecoder())
+            ?.jwtAuthenticationConverter(jwtAuthenticationConverter())
+
+        */
+/*http?.cors()
+            ?.and()
+            ?.authorizeRequests()
+            ?.antMatchers(HttpMethod.GET, "/api/boards")
+            ?.hasAuthority("user")
+            ?.anyRequest()
+            ?.authenticated()
+            ?.and()
+            ?.oauth2ResourceServer()
+            ?.jwt()
+
+            http?.csrf()?.disable()
+            http?.headers()?.frameOptions()?.disable()
+            *//*
+
+
+
+
+    }
+
+    @Throws(Exception::class)
+    override fun configure(web: WebSecurity) {
+        web.ignoring().antMatchers("/api/transaction/paypal/capture")
+    }
+
+
+    fun corsConfigurationSource(): CorsConfigurationSource {
+
+        val configuration = CorsConfiguration()
+        val configurationPaypal = CorsConfiguration()
+
+        configuration.allowedMethods = listOf(
+            HttpMethod.GET.name,
+            HttpMethod.PUT.name,
+            HttpMethod.POST.name,
+            HttpMethod.DELETE.name
+        )
+
+        configurationPaypal.allowedOrigins = listOf("https://www.paypal.com/", "https://sandbox.paypal.com/")
+
+        val source = UrlBasedCorsConfigurationSource()
+        source.registerCorsConfiguration("/**", configuration.applyPermitDefaultValues())
+        source.registerCorsConfiguration("/api/transactions/paypal/capture/**", configurationPaypal)
+
+        return source
+
+    }
+
+    fun jwtAuthenticationConverter() : JwtAuthenticationConverter {
+        */
+/*val converter = JwtGrantedAuthoritiesConverter()
+
+        converter.setAuthoritiesClaimName("permissions")
+        converter.setAuthorityPrefix("")*//*
+
+
+        val jwtConverter = JwtAuthenticationConverter()
+        jwtConverter.setJwtGrantedAuthoritiesConverter(KeycloakRealmRoleConverter(roleForRealm,resourceName))
+
+        return jwtConverter
+
+    }
+
+    @Bean
+    fun jwtDecoder() : JwtDecoder {
+
+        val jwtDec  : NimbusJwtDecoder = JwtDecoders.fromOidcIssuerLocation(issuer)
+
+        val audienceValidator : OAuth2TokenValidator<Jwt> = AudienceValidator(audience)
+        val withIssuer : OAuth2TokenValidator<Jwt> = JwtValidators.createDefaultWithIssuer(issuer)
+        val withAudience : OAuth2TokenValidator<Jwt> = DelegatingOAuth2TokenValidator(withIssuer, audienceValidator)
+
+        jwtDec.setJwtValidator(withAudience)
+
+        return jwtDec
+
+    }
+
+}*/

@@ -1,0 +1,55 @@
+version: "3.9"
+services:
+  blog-sec-api:
+    build:
+      context: ./
+    ports:
+      # - port extern:port intern
+      - "8080:8080"
+    restart: on-failure
+    networks:
+      - backend
+    depends_on:
+      - blog-database
+      - auth-server
+
+  blog-database:
+    image: postgres:latest
+    restart: always
+    volumes:
+      - ./containers-config/init/:/docker-entrypoint-initdb.d/
+    environment:
+      POSTGRES_USER: blog_api
+      POSTGRES_PASSWORD: bl0gP@55
+      POSTGRES_DB: blog
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - "5432:5432"
+    networks:
+      - backend
+
+  auth-server:
+    image: quay.io/keycloak/keycloak:latest
+    environment:
+      KEYCLOAK_ADMIN: blog_auth
+      KEYCLOAK_ADMIN_PASSWORD: blog461m1n
+      KEYCLOAK_USER: blog_auth
+      KEYCLOAK_PASSWORD: blog461m1n
+      KEYCLOAK_MODE: PRODUCTION
+      KEYCLOAK_HOSTNAME: blog.msi.com
+      KEYCLOAK_FRONTEND_URL: https://blog.msi.com/auth
+      JAVA_OPTS: -Xms512m -Xmx2048m -XX:MetaspaceSize=96M -XX:MaxMetaspaceSize=512m
+    command: start-dev
+    ports:
+      - "9000:8080"
+      - "8443:8443"
+    restart: on-failure
+    volumes:
+      - ./containers-config/auth/data:/opt/jboss/keycloak/standalone/data/
+      - ./containers-config/auth/themes:/opt/jboss/keycloak/themes
+    networks:
+      - backend
+
+networks:
+  backend:
+    driver: bridge

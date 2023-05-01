@@ -18,7 +18,7 @@ public class Post {
     @Id private String id;
     @ManyToOne private Author author;
     private String title;
-    @Column( columnDefinition = "longtext")
+    @Column( columnDefinition = "text")
     private String content;
     @Enumerated(EnumType.STRING)
     private PostStatus status;
