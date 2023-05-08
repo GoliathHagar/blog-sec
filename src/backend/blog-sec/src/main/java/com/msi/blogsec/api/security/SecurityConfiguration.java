@@ -14,8 +14,6 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.security.web.SecurityFilterChain;
 import org.zalando.problem.spring.web.advice.security.SecurityProblemSupport;
 
-import static org.springframework.security.config.Customizer.withDefaults;
-
 /**
  * @author : goliathhagar
  * @CreatedBy : IntelliJ IDEA
@@ -56,7 +54,7 @@ public class SecurityConfiguration {
                 .oauth2ResourceServer()
                 .authenticationEntryPoint(problemSupport)
                 .accessDeniedHandler(problemSupport)
-                .jwt().decoder(jwtDecoder())
+                .jwt()/*.decoder(myJwtDecoder())*/
                 .jwtAuthenticationConverter(jwtAuthenticationConverter());
 
         return http.build();
@@ -69,10 +67,10 @@ public class SecurityConfiguration {
         return jwtConverter;
     }
 
-
+/*
     @Bean
-    public JwtDecoder jwtDecoder() {
-        NimbusJwtDecoder jwtDec = (NimbusJwtDecoder) JwtDecoders.fromOidcIssuerLocation(issuer);
+    public JwtDecoder myJwtDecoder() {
+        NimbusJwtDecoder jwtDec = JwtDecoders.fromOidcIssuerLocation(issuer);
 
         OAuth2TokenValidator<Jwt> audienceValidator = new AudienceValidator(audience);
         OAuth2TokenValidator<Jwt> withIssuer = JwtValidators.createDefaultWithIssuer(issuer);
@@ -81,7 +79,7 @@ public class SecurityConfiguration {
         jwtDec.setJwtValidator(withAudience);
 
         return jwtDec;
-    }
+    }*/
 
 
 }
