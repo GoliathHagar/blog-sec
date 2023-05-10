@@ -32,7 +32,7 @@ public class Home {
     }
 
     @GetMapping("/post/{id}")
-    @PreAuthorize(Authorities.PERMISSION_AUTHENTICATED)
+    @PreAuthorize(Authorities.EDIT_POST)
     ResponseEntity<Post> home(@PathVariable String id){
         final Post post = services.fn(id);
 

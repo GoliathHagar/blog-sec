@@ -10,5 +10,6 @@ package com.msi.blogsec.api.security.constants;
 public class Authorities { //system permitions should be instanciate here
     public static final String PERMISSION_PERMIT_ALL = "permitAll";
     public static final String PERMISSION_AUTHENTICATED = "isAuthenticated()";
+    public static final String EDIT_POST = "hasAuthority('edit:post')";
 
 }

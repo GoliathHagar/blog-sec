@@ -54,7 +54,7 @@ public class SecurityConfiguration {
                 .oauth2ResourceServer()
                 .authenticationEntryPoint(problemSupport)
                 .accessDeniedHandler(problemSupport)
-                .jwt()/*.decoder(myJwtDecoder())*/
+                .jwt().decoder(myJwtDecoder())
                 .jwtAuthenticationConverter(jwtAuthenticationConverter());
 
         return http.build();
@@ -67,7 +67,7 @@ public class SecurityConfiguration {
         return jwtConverter;
     }
 
-/*
+
     @Bean
     public JwtDecoder myJwtDecoder() {
         NimbusJwtDecoder jwtDec = JwtDecoders.fromOidcIssuerLocation(issuer);
@@ -79,7 +79,7 @@ public class SecurityConfiguration {
         jwtDec.setJwtValidator(withAudience);
 
         return jwtDec;
-    }*/
+    }
 
 
 }
