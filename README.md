@@ -1,10 +1,10 @@
 # blog-sec
 
-##Servers
+## Servers
 - Authorization server (Keycloak)
 
 ```bash
-address : http://localhost:9000
+address: http://localhost:9000
 user: blog_auth
 pass: blog461m1n
 ```
