@@ -50,8 +50,6 @@ public class KeycloakRealmRoleConverter implements Converter<Jwt, Collection<Gra
             access = (Map<String, Object>) jwt.getClaims().get(REALM_ACCESS);
         }
         List<String> roles = (List<String>) access.get(ROLES);
-        System.out.println(ROLES);
-        roles.forEach(System.out::println);
 
         return roles.stream()
                 .map(roleName -> ROLE_PREFIX + roleName)

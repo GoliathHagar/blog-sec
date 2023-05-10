@@ -36,7 +36,6 @@ public class Home {
     @PreAuthorize(Authorities.EDIT_POST)
     ResponseEntity<Post> home(@PathVariable String id){
         final SecurityHelper home = new SecurityHelper();
-        System.out.println(home.validatePrincipal());
 
         final Post post = services.fn(id);
 

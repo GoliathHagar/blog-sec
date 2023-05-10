@@ -36,8 +36,6 @@ services:
       KEYCLOAK_FRONTEND_URL: https://blog.msi.com/auth
       JAVA_OPTS: -Xms512m -Xmx2048m -XX:MetaspaceSize=96M -XX:MaxMetaspaceSize=512m
     command: start-dev
-    expose:
-      - 9000
     ports:
       - "9000:8080"
       - "8443:8443"
