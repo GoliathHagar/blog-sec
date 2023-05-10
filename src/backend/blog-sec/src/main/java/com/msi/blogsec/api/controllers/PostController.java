@@ -17,24 +17,17 @@ import org.springframework.web.bind.annotation.RestController;
  * @CreatedBy : IntelliJ IDEA
  * @ProjectName : blog-sec
  * @mailto : goliathhagar@outlook.com
- * @created : 3/21/23, Tuesday, 10:45 AM
+ * @created : 5/10/23, Wednesday, 6:54 PM
  **/
-
 @RestController
-@RequestMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
-public class Home {
-    BlogServices services;
+@RequestMapping(value = "/posts", produces = MediaType.APPLICATION_JSON_VALUE)
+public class PostController {
 
-    @GetMapping
-    ResponseEntity<String> home(){
-        final SecurityHelper home = new SecurityHelper();
-
-        return ResponseEntity.ok(home.validatePrincipal());
-    }
+    private final BlogServices services;
 
     @GetMapping("/post/{id}")
     @PreAuthorize(Authorities.EDIT_POST)
-    ResponseEntity<Post> home(@PathVariable String id){
+    ResponseEntity<Post> postById(@PathVariable String id){
         final SecurityHelper home = new SecurityHelper();
 
         final Post post = services.fn(id);
@@ -42,7 +35,7 @@ public class Home {
         return ResponseEntity.ok(post);
     }
 
-    public Home(BlogServices services) {
+    public PostController(BlogServices services) {
         this.services = services;
     }
 }
