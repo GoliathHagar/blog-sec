@@ -1,6 +1,6 @@
 # blog-sec
 
-- [API - Instruction](./src/backend/readme.md)
+- [API - Instructions](./src/backend/readme.md)
 
 
 ## Servers
