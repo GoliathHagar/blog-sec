@@ -12,6 +12,8 @@ user: blog_auth
 pass: blog461m1n
 ```
 - Blog Api (Spring Boot)
+Use [JWT.IO](https://jtw.io) to inspect tokens.
+
 ```bash
 curl -H "Authorization: Bearer jtwToken" http://localhost:8080 
 
