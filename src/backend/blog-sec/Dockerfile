@@ -1,4 +1,4 @@
-FROM openjdk:19-jdk-alpine
+FROM openjdk:latest
 #MAINTAINER blog-sec.msi.com
 #RUN addgroup -S blog && adduser -S blog -G blog
 #USER blog

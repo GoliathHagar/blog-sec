@@ -21,8 +21,6 @@ public class AudienceValidator implements OAuth2TokenValidator<Jwt> {
 
     @Override
     public OAuth2TokenValidatorResult validate(Jwt token) {
-        OAuth2TokenValidatorResult res;
-
         final String errorCode = "invalid_token";
         final String description = "The required audience is missing";
         final OAuth2Error error = new OAuth2Error(errorCode, description, null);

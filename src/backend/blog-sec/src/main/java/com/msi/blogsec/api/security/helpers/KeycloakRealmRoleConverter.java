@@ -8,6 +8,7 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -22,8 +23,7 @@ public class KeycloakRealmRoleConverter implements Converter<Jwt, Collection<Gra
     private String resourceName = null;
     private boolean roleForRealm = true;
 
-    public KeycloakRealmRoleConverter() {
-    }
+    protected KeycloakRealmRoleConverter(){}
 
     public KeycloakRealmRoleConverter(boolean roleForRealm, String resourceName) {
         this.roleForRealm = roleForRealm;
@@ -38,6 +38,9 @@ public class KeycloakRealmRoleConverter implements Converter<Jwt, Collection<Gra
     @Override
     public Collection<GrantedAuthority> convert(Jwt jwt) {
         Map<String, Object> access;
+        Objects.requireNonNull(jwt);
+
+
         if (!roleForRealm && resourceName != null) {
             access = (Map<String, Object>) jwt.getClaims().get(RESOURCE_ACCESS);
             if (access != null && access.containsKey(resourceName)) {
@@ -47,10 +50,12 @@ public class KeycloakRealmRoleConverter implements Converter<Jwt, Collection<Gra
             access = (Map<String, Object>) jwt.getClaims().get(REALM_ACCESS);
         }
         List<String> roles = (List<String>) access.get(ROLES);
+        System.out.println(ROLES);
+        roles.forEach(System.out::println);
+
         return roles.stream()
                 .map(roleName -> ROLE_PREFIX + roleName)
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
     }
-
 }

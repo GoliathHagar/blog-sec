@@ -34,27 +34,28 @@ public class SecurityConfiguration {
     }
 
     @Value("${auth.audience}")
-    private String audience;
+    private String audience="";
 
     @Value("${spring.security.oauth2.resourceserver.jwt.issuer-uri}")
-    private String issuer;
+    private String issuer="";
 
     @Value("${auth.resource-name}")
-    protected String resourceName;
+    protected String resourceName="";
 
     @Value("${auth.for-realm}")
     protected boolean roleForRealm = true;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
         http.authorizeHttpRequests((authz) -> authz
                         .requestMatchers("/").permitAll()
-                        .anyRequest().authenticated()
+                        .anyRequest().fullyAuthenticated()
                 )
                 .oauth2ResourceServer()
                 .authenticationEntryPoint(problemSupport)
                 .accessDeniedHandler(problemSupport)
-                .jwt().decoder(myJwtDecoder())
+                .jwt().decoder(jwtDecoder())
                 .jwtAuthenticationConverter(jwtAuthenticationConverter());
 
         return http.build();
@@ -67,18 +68,17 @@ public class SecurityConfiguration {
         return jwtConverter;
     }
 
-
     @Bean
-    public JwtDecoder myJwtDecoder() {
-        NimbusJwtDecoder jwtDec = JwtDecoders.fromOidcIssuerLocation(issuer);
+    JwtDecoder jwtDecoder() {
+        NimbusJwtDecoder jwtDecoder = (NimbusJwtDecoder) JwtDecoders.fromIssuerLocation(issuer);
 
         OAuth2TokenValidator<Jwt> audienceValidator = new AudienceValidator(audience);
         OAuth2TokenValidator<Jwt> withIssuer = JwtValidators.createDefaultWithIssuer(issuer);
         OAuth2TokenValidator<Jwt> withAudience = new DelegatingOAuth2TokenValidator<>(withIssuer, audienceValidator);
 
-        jwtDec.setJwtValidator(withAudience);
+        jwtDecoder.setJwtValidator(withAudience);
 
-        return jwtDec;
+        return jwtDecoder;
     }
 
 

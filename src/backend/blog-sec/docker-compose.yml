@@ -3,12 +3,8 @@ services:
   blog-sec-api:
     build:
       context: ./
-    ports:
-      # - port extern:port intern
-      - "8080:8080"
-    restart: on-failure
-    networks:
-      - backend
+    restart: unless-stopped
+    network_mode: host
     depends_on:
       - blog-database
       - auth-server
@@ -40,6 +36,8 @@ services:
       KEYCLOAK_FRONTEND_URL: https://blog.msi.com/auth
       JAVA_OPTS: -Xms512m -Xmx2048m -XX:MetaspaceSize=96M -XX:MaxMetaspaceSize=512m
     command: start-dev
+    expose:
+      - 9000
     ports:
       - "9000:8080"
       - "8443:8443"
@@ -49,7 +47,6 @@ services:
       - ./containers-config/auth/themes:/opt/keycloak/themes
     networks:
       - backend
-
 networks:
   backend:
     driver: bridge

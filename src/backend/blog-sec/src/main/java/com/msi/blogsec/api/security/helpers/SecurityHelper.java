@@ -15,6 +15,8 @@ public class SecurityHelper {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (authentication != null && authentication.isAuthenticated()) {
+            System.out.println("Authorities");
+            authentication.getAuthorities().forEach(System.out::println);
             return authentication.getName();
         } else {
             return "";

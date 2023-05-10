@@ -1,6 +1,7 @@
 package com.msi.blogsec.api.controllers;
 
 import com.msi.blogsec.api.security.constants.Authorities;
+import com.msi.blogsec.api.security.helpers.SecurityHelper;
 import com.msi.blogsec.data.Post;
 import com.msi.blogsec.domain.BlogServices;
 import org.springframework.http.MediaType;
@@ -26,14 +27,17 @@ public class Home {
 
     @GetMapping
     ResponseEntity<String> home(){
-        final String home = "this is home api";
+        final SecurityHelper home = new SecurityHelper();
 
-        return ResponseEntity.ok(home);
+        return ResponseEntity.ok(home.validatePrincipal());
     }
 
     @GetMapping("/post/{id}")
     @PreAuthorize(Authorities.EDIT_POST)
     ResponseEntity<Post> home(@PathVariable String id){
+        final SecurityHelper home = new SecurityHelper();
+        System.out.println(home.validatePrincipal());
+
         final Post post = services.fn(id);
 
         return ResponseEntity.ok(post);
