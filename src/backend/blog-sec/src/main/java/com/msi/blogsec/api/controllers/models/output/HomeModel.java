@@ -13,6 +13,7 @@ import com.msi.blogsec.api.controllers.HomeController;
  * @mailto : goliathhagar@outlook.com
  * @created : 5/10/23, Wednesday, 6:52 PM
  **/
+
 public class HomeModel extends RepresentationModel<HomeModel> {
     private final String motd;
 

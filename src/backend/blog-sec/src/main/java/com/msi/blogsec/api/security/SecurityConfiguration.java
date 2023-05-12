@@ -1,4 +1,5 @@
 package com.msi.blogsec.api.security;
+import com.msi.blogsec.api.constants.Endpoints;
 import com.msi.blogsec.api.security.helpers.KeycloakRealmRoleConverter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -12,6 +13,7 @@ import org.springframework.security.oauth2.core.OAuth2TokenValidator;
 import org.springframework.security.oauth2.jwt.*;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.zalando.problem.spring.web.advice.security.SecurityProblemSupport;
 
 /**
@@ -48,9 +50,9 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-        http.authorizeHttpRequests((authz) -> authz
-                        .requestMatchers("/").permitAll()
-                        .anyRequest().fullyAuthenticated()
+        http.authorizeHttpRequests((authz) ->
+                            authz.requestMatchers(new AntPathRequestMatcher(Endpoints.ROOT+"/**")).permitAll()
+                                    .anyRequest().denyAll()
                 )
                 .oauth2ResourceServer()
                 .authenticationEntryPoint(problemSupport)

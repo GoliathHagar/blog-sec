@@ -1,5 +1,6 @@
 package com.msi.blogsec.api.controllers;
 
+import com.msi.blogsec.api.constants.Endpoints;
 import com.msi.blogsec.api.controllers.models.output.HomeModel;
 import com.msi.blogsec.api.security.constants.Authorities;
 import com.msi.blogsec.api.security.helpers.SecurityHelper;
@@ -22,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
  **/
 
 @RestController
-@RequestMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = Endpoints.ROOT, produces = MediaType.APPLICATION_JSON_VALUE)
 public class HomeController {
 
     @GetMapping

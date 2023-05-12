@@ -1,5 +1,6 @@
 package com.msi.blogsec.api.controllers;
 
+import com.msi.blogsec.api.constants.Endpoints;
 import com.msi.blogsec.api.controllers.models.input.CommentInputModel;
 import jakarta.validation.Valid;
 import org.springframework.http.MediaType;
@@ -14,10 +15,11 @@ import org.springframework.web.bind.annotation.*;
  * @created : 5/10/23, Wednesday, 6:55 PM
  **/
 @RestController
-@RequestMapping(value = "/comments", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = Endpoints.ROOT+Endpoints.COMMENT,
+        produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 public class CommentController {
 
-    @GetMapping("/post/{post_id}")
+    @GetMapping(Endpoints.POST+"/{post_id}")
     ResponseEntity getCommentOnPost(@PathVariable String post_id){
 
         return ResponseEntity.status(200).build();

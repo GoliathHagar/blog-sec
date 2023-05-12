@@ -1,5 +1,6 @@
 package com.msi.blogsec.api.controllers;
 
+import com.msi.blogsec.api.constants.Endpoints;
 import com.msi.blogsec.api.controllers.models.input.PostInputModel;
 import com.msi.blogsec.api.security.constants.Authorities;
 import com.msi.blogsec.api.security.helpers.SecurityHelper;
@@ -19,7 +20,8 @@ import org.springframework.web.bind.annotation.*;
  * @created : 5/10/23, Wednesday, 6:54 PM
  **/
 @RestController
-@RequestMapping(value = "/posts", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = Endpoints.ROOT+Endpoints.POST,
+        consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 public class PostController {
 
     private final BlogServices services;
@@ -35,7 +37,7 @@ public class PostController {
 
 
     //get post by id
-    @GetMapping("/post/{id}")
+    @GetMapping("/{id}")
     @PreAuthorize(Authorities.PERMISSION_PERMIT_ALL)
     ResponseEntity<Post> postById(@PathVariable String id){
 
@@ -45,7 +47,7 @@ public class PostController {
     }
 
     //edit post
-    @PutMapping("/post/{id}")
+    @PutMapping("/{id}")
     @PreAuthorize(Authorities.PERMISSION_PERMIT_ALL)
     ResponseEntity<Post> editPost(@PathVariable String id, @RequestBody PostInputModel postInputModel){
 
@@ -55,7 +57,7 @@ public class PostController {
     }
 
     //remove post
-    @DeleteMapping("/post/{id}")
+    @DeleteMapping("/{id}")
     @PreAuthorize(Authorities.PERMISSION_PERMIT_ALL)
     ResponseEntity<Post> removePost(@PathVariable String id){
 
