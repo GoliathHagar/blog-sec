@@ -1,16 +1,15 @@
 package com.msi.blogsec.api.controllers;
 
+import com.msi.blogsec.api.controllers.models.input.PostInputModel;
 import com.msi.blogsec.api.security.constants.Authorities;
 import com.msi.blogsec.api.security.helpers.SecurityHelper;
 import com.msi.blogsec.data.Post;
 import com.msi.blogsec.domain.BlogServices;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author : goliathhagar
@@ -25,15 +24,46 @@ public class PostController {
 
     private final BlogServices services;
 
+    //get all posts
+    @GetMapping
+    @Secured({Authorities.PERMISSION_PERMIT_ALL})
+    ResponseEntity posts(){
+
+
+        return ResponseEntity.status(200).build();
+    }
+
+
+    //get post by id
     @GetMapping("/post/{id}")
-    @PreAuthorize(Authorities.EDIT_POST)
+    @PreAuthorize(Authorities.PERMISSION_PERMIT_ALL)
     ResponseEntity<Post> postById(@PathVariable String id){
-        final SecurityHelper home = new SecurityHelper();
 
         final Post post = services.fn(id);
 
         return ResponseEntity.ok(post);
     }
+
+    //edit post
+    @PutMapping("/post/{id}")
+    @PreAuthorize(Authorities.PERMISSION_PERMIT_ALL)
+    ResponseEntity<Post> editPost(@PathVariable String id, @RequestBody PostInputModel postInputModel){
+
+        final Post post = services.fn(id);
+
+        return ResponseEntity.ok(post);
+    }
+
+    //remove post
+    @DeleteMapping("/post/{id}")
+    @PreAuthorize(Authorities.PERMISSION_PERMIT_ALL)
+    ResponseEntity<Post> removePost(@PathVariable String id){
+
+        final Post post = services.fn(id);
+
+        return ResponseEntity.ok(post);
+    }
+
 
     public PostController(BlogServices services) {
         this.services = services;
