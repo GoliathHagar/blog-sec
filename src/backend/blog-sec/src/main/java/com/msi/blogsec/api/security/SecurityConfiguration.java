@@ -54,6 +54,7 @@ public class SecurityConfiguration {
                             authz.requestMatchers(new AntPathRequestMatcher(Endpoints.ROOT+"/**")).permitAll()
                                     .anyRequest().denyAll()
                 )
+                .csrf().and()
                 .oauth2ResourceServer()
                 .authenticationEntryPoint(problemSupport)
                 .accessDeniedHandler(problemSupport)

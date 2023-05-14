@@ -1,9 +1,6 @@
 package com.msi.blogsec.api.controllers.models.input;
 
-import jakarta.validation.constraints.NotNull;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.hateoas.RepresentationModel;
+import jakarta.validation.constraints.NotBlank;
 
 /**
  * @author : goliathhagar
@@ -13,7 +10,6 @@ import org.springframework.hateoas.RepresentationModel;
  * @created : 5/12/23, Friday, 9:11 AM
  **/
 
-@Data
-public class CommentInputModel {
-    @NotNull String content;
+
+public record CommentInputModel(@NotBlank String content, String parentCommentId) {
 }

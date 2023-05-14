@@ -1,7 +1,8 @@
 package com.msi.blogsec.api.controllers.models.input;
 
-import lombok.Data;
-import org.springframework.hateoas.RepresentationModel;
+import com.msi.blogsec.domain.constants.PostStatus;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * @author : goliathhagar
@@ -11,6 +12,6 @@ import org.springframework.hateoas.RepresentationModel;
  * @created : 5/12/23, Friday, 9:28 AM
  **/
 
-@Data
-public class PostInputModel{
+public record PostInputModel(@NotBlank String title, @NotBlank String content, @NotNull PostStatus status,
+                             @NotNull boolean commentAllowed, @NotNull String tags) {
 }

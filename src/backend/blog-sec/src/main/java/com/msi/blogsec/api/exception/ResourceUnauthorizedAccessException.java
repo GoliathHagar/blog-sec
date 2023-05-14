@@ -1,37 +1,31 @@
 package com.msi.blogsec.api.exception;
 
-import lombok.AllArgsConstructor;
 import org.springframework.data.annotation.Immutable;
 import org.zalando.problem.AbstractThrowableProblem;
 import org.zalando.problem.Status;
 import org.zalando.problem.StatusType;
-
-import java.net.URI;
-import java.util.Map;
 
 /**
  * @author : goliathhagar
  * @CreatedBy : IntelliJ IDEA
  * @ProjectName : blog-sec
  * @mailto : goliathhagar@outlook.com
- * @created : 4/19/23, Wednesday, 7:32 PM
+ * @created : 5/13/23, Saturday, 4:49 PM
  **/
-@AllArgsConstructor
-public class ResourceNotFoundException  extends AbstractThrowableProblem {
-    private final String resource;
 
+public class ResourceUnauthorizedAccessException  extends AbstractThrowableProblem {
     @Override
     public String getTitle() {
-        return Status.NOT_FOUND.name();
+        return Status.UNAUTHORIZED.name();
     }
 
     @Override
     public StatusType getStatus() {
-        return Status.NOT_FOUND;
+        return Status.UNAUTHORIZED;
     }
 
     @Override
     public String getDetail() {
-        return resource + " does not exists";
+        return "Do not have permitions to access this resource";
     }
 }

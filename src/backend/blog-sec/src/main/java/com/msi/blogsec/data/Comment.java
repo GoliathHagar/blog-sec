@@ -2,6 +2,7 @@ package com.msi.blogsec.data;
 
 import com.msi.blogsec.domain.constants.CommentStatus;
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -12,7 +13,11 @@ import java.time.LocalDateTime;
  * @mailto : goliathhagar@outlook.com
  * @created : 4/19/23, Wednesday, 1:08 PM
  **/
-
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Setter
+@Getter
 @Entity(name = "comments")
 public class Comment {
     @Id private String id;

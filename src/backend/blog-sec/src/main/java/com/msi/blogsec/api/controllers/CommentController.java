@@ -1,10 +1,21 @@
 package com.msi.blogsec.api.controllers;
 
 import com.msi.blogsec.api.constants.Endpoints;
+import com.msi.blogsec.api.controllers.assemblers.CommentAssembler;
 import com.msi.blogsec.api.controllers.models.input.CommentInputModel;
+import com.msi.blogsec.api.controllers.models.output.CommentOutputModel;
+import com.msi.blogsec.api.security.constants.Authorities;
+import com.msi.blogsec.data.Comment;
+import com.msi.blogsec.domain.CommentService;
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -17,40 +28,32 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(value = Endpoints.ROOT+Endpoints.COMMENT,
         produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+@AllArgsConstructor
 public class CommentController {
 
-    @GetMapping(Endpoints.POST+"/{post_id}")
-    ResponseEntity getCommentOnPost(@PathVariable String post_id){
+    private final CommentService commentService;
+    private final CommentAssembler assembler;
+    private final PagedResourcesAssembler<Comment> pagedResourcesAssembler;
 
-        return ResponseEntity.status(200).build();
 
-    }
+    @GetMapping("/{post_id}")
+    @PreAuthorize(Authorities.PERMISSION_PERMIT_ALL)
+    public ResponseEntity<PagedModel<CommentOutputModel>> getCommentOnPost(@PathVariable String post_id, Pageable pageable){
 
-    @GetMapping("/{comment_id}")
-    ResponseEntity getComment(@PathVariable String post_id){
+        Page<Comment> comments = commentService.getCommentsOnPost( post_id, pageable);
 
-        return ResponseEntity.status(200).build();
-
-    }
-
-    @PostMapping
-    ResponseEntity addComment(@Valid @RequestBody CommentInputModel data){
-
-        return ResponseEntity.status(200).build();
+        return ResponseEntity.ok(pagedResourcesAssembler.toModel(comments,assembler));
 
     }
 
-    @PutMapping("/{comment_id}")
-    ResponseEntity editCommnet(@PathVariable String comment_id){
+    @PostMapping("/{post_id}")
+    @PreAuthorize(Authorities.CREATE_COMMENT)
+    public ResponseEntity<CommentOutputModel> addComment(@Valid @RequestBody CommentInputModel data, @PathVariable String post_id){
 
-        return ResponseEntity.status(200).build();
+        Comment comment = commentService.addCommenttoPost(post_id, data);
 
-    }
-
-    @DeleteMapping("/{comment_id}")
-    ResponseEntity removeComment(@PathVariable String comment_id){
-
-        return ResponseEntity.status(200).build();
+        return ResponseEntity.ok(assembler.toModel(comment));
 
     }
+
 }
