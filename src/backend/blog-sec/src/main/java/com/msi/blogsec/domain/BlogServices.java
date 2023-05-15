@@ -5,8 +5,6 @@ import com.msi.blogsec.data.Post;
 import com.msi.blogsec.data.PostRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 /**
  * @author : goliathhagar
  * @CreatedBy : IntelliJ IDEA
