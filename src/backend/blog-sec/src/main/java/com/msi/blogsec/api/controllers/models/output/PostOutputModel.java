@@ -1,12 +1,8 @@
 package com.msi.blogsec.api.controllers.models.output;
 
-import com.msi.blogsec.data.Author;
 import com.msi.blogsec.domain.constants.PostStatus;
-import jakarta.persistence.*;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
-import lombok.Setter;
 import org.springframework.hateoas.RepresentationModel;
 
 import java.time.LocalDateTime;
@@ -31,5 +27,4 @@ public class PostOutputModel extends RepresentationModel<PostOutputModel> {
     private final LocalDateTime publishedAt;
     private final LocalDateTime updatedAt;
     private final LocalDateTime createdAt;
-
 }

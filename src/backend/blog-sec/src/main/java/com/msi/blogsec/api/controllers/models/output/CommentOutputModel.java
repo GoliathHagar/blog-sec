@@ -1,17 +1,9 @@
 package com.msi.blogsec.api.controllers.models.output;
 
-import com.msi.blogsec.data.Author;
-import com.msi.blogsec.data.Comment;
-import com.msi.blogsec.data.Post;
-import com.msi.blogsec.domain.constants.CommentStatus;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
+
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.hateoas.RepresentationModel;
-import org.yaml.snakeyaml.representer.Represent;
 
 import java.time.LocalDateTime;
 
