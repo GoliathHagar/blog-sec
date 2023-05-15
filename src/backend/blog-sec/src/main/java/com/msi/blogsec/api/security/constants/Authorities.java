@@ -1,5 +1,6 @@
 package com.msi.blogsec.api.security.constants;
 
+
 /**
  * @author : goliathhagar
  * @CreatedBy : IntelliJ IDEA
@@ -7,7 +8,11 @@ package com.msi.blogsec.api.security.constants;
  * @mailto : goliathhagar@outlook.com
  * @created : 5/1/23, Monday, 1:41 PM
  **/
+
 public class Authorities { //system permitions should be instanciate here
+    private Authorities() {
+    }
+
     public static final String PERMISSION_PERMIT_ALL = "permitAll";
     public static final String PERMISSION_AUTHENTICATED = "isAuthenticated()";
 

@@ -8,6 +8,8 @@ package com.msi.blogsec.api.constants;
  * @created : 5/12/23, Friday, 12:03 PM
  **/
 public class Endpoints {
+    protected Endpoints(){}
+
     public static final String ROOT = "/api";
     public static final String POST = "/post";
     public static final String COMMENT = "/comment";

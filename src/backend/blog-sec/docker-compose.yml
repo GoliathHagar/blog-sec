@@ -45,6 +45,20 @@ services:
       - ./containers-config/auth/themes:/opt/keycloak/themes
     networks:
       - backend
+
+  sonarqube:
+    image: sonarqube
+    restart: unless-stopped
+    environment:
+      - SONARQUBE_JDBC_USERNAME=sonarqube
+      - SONARQUBE_JDBC_PASSWORD=sonarqube
+    ports:
+      - "9990:9000"
+      - "9991:9092"
+    networks:
+      - backend
+
 networks:
   backend:
     driver: bridge
+
