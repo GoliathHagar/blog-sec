@@ -2,7 +2,6 @@
 
 import 'dart:convert';
 
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -114,7 +113,7 @@ class AuthController extends GetxController {
 
     final _nonce = AuthHandler.randomString(16);
 
-    var url = "https://$_domain/auth"
+    var url = "http://$_domain/auth"
         "?client_id=$_clientId"
         // "&response_type=id_token token"
         "&response_type=code"
@@ -187,7 +186,7 @@ class AuthController extends GetxController {
         'Content-Type': 'application/x-www-form-urlencoded',
       };
 
-      var _request = http.Request('POST', Uri.parse("https://$_domain/token"));
+      var _request = http.Request('POST', Uri.parse("http://$_domain/token"));
 
       _request.bodyFields = {
         "grant_type": "authorization_code",
@@ -325,7 +324,7 @@ class AuthController extends GetxController {
     _idToken = "";
     _userDataStorage.clear();
 
-    var url = "https://$_domain/logout";
+    var url = "http://$_domain/logout";
     //"?client_id=$clientId"
     //"&post_logout_redirect_uri=$redirectUrl";
 
@@ -355,7 +354,7 @@ class AuthController extends GetxController {
   }
 
   Future<Map> getUserDetails(String accessToken) async {
-    const _url = "https://$_domain/userinfo";
+    const _url = "http://$_domain/userinfo";
 
     try {
       http.Response _response = await http.get(
