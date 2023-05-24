@@ -118,8 +118,6 @@ public class PostServices {
         //identify users ownership
         String jwtId = securityHelper.jwtSubId();
 
-        LocalDateTime tic = LocalDateTime.now();
-
         Post post = postRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Post"));
 
         if (!post.getAuthor().getJwtUserId().equals(jwtId)) throw new ResourceUnauthorizedAccessException();
@@ -127,7 +125,7 @@ public class PostServices {
         //remove post and its comments
         post.setStatus(PostStatus.REMOVED);
 
-        post.getComments().forEach((comment)->{ comment.setStatus(CommentStatus.REMOVED);});
+        post.getComments().forEach(comment -> comment.setStatus(CommentStatus.REMOVED));
 
         postRepository.save(post);
 

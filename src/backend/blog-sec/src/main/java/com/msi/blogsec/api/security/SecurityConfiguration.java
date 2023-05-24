@@ -50,9 +50,9 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-        http.authorizeHttpRequests((authz) ->
-                            authz.requestMatchers(new AntPathRequestMatcher(Endpoints.ROOT+"/**")).permitAll()
-                                    .anyRequest().denyAll()
+        http.authorizeHttpRequests(authz ->
+                        authz.requestMatchers(new AntPathRequestMatcher(Endpoints.ROOT + "/**")).permitAll()
+                                .anyRequest().denyAll()
                 )
                 .csrf().and()
                 .oauth2ResourceServer()
@@ -73,7 +73,7 @@ public class SecurityConfiguration {
 
     @Bean
     JwtDecoder jwtDecoder() {
-        NimbusJwtDecoder jwtDecoder = (NimbusJwtDecoder) JwtDecoders.fromIssuerLocation(issuer);
+        NimbusJwtDecoder jwtDecoder = JwtDecoders.fromIssuerLocation(issuer);
 
         OAuth2TokenValidator<Jwt> audienceValidator = new AudienceValidator(audience);
         OAuth2TokenValidator<Jwt> withIssuer = JwtValidators.createDefaultWithIssuer(issuer);
