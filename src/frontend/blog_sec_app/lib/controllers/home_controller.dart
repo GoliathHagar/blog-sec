@@ -12,7 +12,7 @@ class HomeController extends GetxController {
 
   bool get loading => _loading;
 
-  getPostList(postLink) async {
+  Future<void> getPostList() async {
     _loading = true;
 
     try {

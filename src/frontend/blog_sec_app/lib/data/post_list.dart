@@ -1,3 +1,5 @@
+import 'package:blog_sec_app/data/post.dart';
+
 class PostList {
   Embedded? eEmbedded;
   Links? lLinks;
@@ -28,15 +30,15 @@ class PostList {
 }
 
 class Embedded {
-  List<PostOutputModelList>? postOutputModelList;
+  List<Post>? postOutputModelList;
 
   Embedded({this.postOutputModelList});
 
   Embedded.fromJson(Map<String, dynamic> json) {
     if (json['postOutputModelList'] != null) {
-      postOutputModelList = <PostOutputModelList>[];
+      postOutputModelList = <Post>[];
       json['postOutputModelList'].forEach((v) {
-        postOutputModelList!.add(PostOutputModelList.fromJson(v));
+        postOutputModelList!.add(Post.fromJson(v));
       });
     }
   }
@@ -46,61 +48,6 @@ class Embedded {
     if (postOutputModelList != null) {
       data['postOutputModelList'] =
           postOutputModelList!.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
-}
-
-class PostOutputModelList {
-  String? author;
-  String? title;
-  String? content;
-  String? status;
-  bool? commentAllowed;
-  String? tags;
-  String? publishedAt;
-  String? updatedAt;
-  String? createdAt;
-  Links? lLinks;
-
-  PostOutputModelList(
-      {this.author,
-      this.title,
-      this.content,
-      this.status,
-      this.commentAllowed,
-      this.tags,
-      this.publishedAt,
-      this.updatedAt,
-      this.createdAt,
-      this.lLinks});
-
-  PostOutputModelList.fromJson(Map<String, dynamic> json) {
-    author = json['author'];
-    title = json['title'];
-    content = json['content'];
-    status = json['status'];
-    commentAllowed = json['commentAllowed'];
-    tags = json['tags'];
-    publishedAt = json['publishedAt'];
-    updatedAt = json['updatedAt'];
-    createdAt = json['createdAt'];
-    lLinks = json['_links'] != null ? Links.fromJson(json['_links']) : null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['author'] = author;
-    data['title'] = title;
-    data['content'] = content;
-    data['status'] = status;
-    data['commentAllowed'] = commentAllowed;
-    data['tags'] = tags;
-    data['publishedAt'] = publishedAt;
-    data['updatedAt'] = updatedAt;
-    data['createdAt'] = createdAt;
-    if (lLinks != null) {
-      data['_links'] = lLinks!.toJson();
     }
     return data;
   }
