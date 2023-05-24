@@ -16,7 +16,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.PagedModel;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -105,9 +104,9 @@ public class PostController {
     //remove post
     @DeleteMapping("/{id}")
     @PreAuthorize(Authorities.REMOVE_POST)
-    public HttpEntity<?> removePost(@PathVariable String id){
+    public ResponseEntity<Object> removePost(@PathVariable String id) {
 
-       postServices.removePost(id);
+        postServices.removePost(id);
 
         return ResponseEntity.status(HttpStatus.OK).build();
     }

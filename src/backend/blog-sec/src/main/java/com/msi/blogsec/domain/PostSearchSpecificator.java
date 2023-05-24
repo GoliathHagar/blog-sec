@@ -8,7 +8,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -21,7 +20,7 @@ import java.util.List;
 
 @AllArgsConstructor
 public class PostSearchSpecificator implements Specification<Post> {
-    PostSearchParams params;
+    transient PostSearchParams params;
 
     @Override
     public Predicate toPredicate(Root<Post> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {

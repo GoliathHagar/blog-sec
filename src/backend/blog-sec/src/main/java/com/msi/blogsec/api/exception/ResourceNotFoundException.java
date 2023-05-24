@@ -1,9 +1,9 @@
 package com.msi.blogsec.api.exception;
 
 import lombok.AllArgsConstructor;
-import org.zalando.problem.AbstractThrowableProblem;
 import org.zalando.problem.Status;
 import org.zalando.problem.StatusType;
+import org.zalando.problem.ThrowableProblem;
 
 /**
  * @author : goliathhagar
@@ -13,7 +13,7 @@ import org.zalando.problem.StatusType;
  * @created : 4/19/23, Wednesday, 7:32 PM
  **/
 @AllArgsConstructor
-public class ResourceNotFoundException  extends AbstractThrowableProblem {
+public class ResourceNotFoundException extends ThrowableProblem {
     private final String resource;
 
     @Override
