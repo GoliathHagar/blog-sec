@@ -24,11 +24,13 @@ import java.util.HashMap;
 
 @ControllerAdvice
 class ExceptionHandling implements ProblemHandling {
-    static private ThrowableProblem myProblem(Problem problem){
+    private static ThrowableProblem myProblem(Problem problem) {
         final HashMap<String, Object> parameters = new HashMap<>();
 
-        if (problem instanceof ConstraintViolationProblem)
+        if ((ConstraintViolationProblem) problem != null)
             parameters.put("violations", ((ConstraintViolationProblem) problem).getViolations());
+        else
+            return Problem.builder().withStatus(Status.INTERNAL_SERVER_ERROR).build();
 
         return Problem.builder()
                 .withTitle(problem.getTitle())
@@ -40,16 +42,18 @@ class ExceptionHandling implements ProblemHandling {
 
     @Override
     public ResponseEntity<Problem> process(ResponseEntity<Problem> entity, NativeWebRequest request) {
-        if (entity.getBody() == null)
+        final Problem problem = entity.getBody();
+        if (problem == null)
             return new ResponseEntity<>(null, null, HttpStatus.INTERNAL_SERVER_ERROR);
 
-        final Problem problem = entity.getBody();
         final HttpHeaders headers = entity.getHeaders();
         final Problem p = myProblem(problem);
         final int status = p.getStatus() != null ?
                 p.getStatus().getStatusCode() : Status.INTERNAL_SERVER_ERROR.getStatusCode();
 
         return new ResponseEntity<>(p, headers, status);
+
+
     }
 
     @ExceptionHandler(ResourceNotFoundException.class)

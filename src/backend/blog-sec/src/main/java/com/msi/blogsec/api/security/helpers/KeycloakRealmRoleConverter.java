@@ -40,17 +40,15 @@ public class KeycloakRealmRoleConverter implements Converter<Jwt, Collection<Gra
         Map<String, Object> access;
         Objects.requireNonNull(jwt);
 
-
         if (!roleForRealm && resourceName != null) {
             access = (Map<String, Object>) jwt.getClaims().get(RESOURCE_ACCESS);
-            if (access != null && access.containsKey(resourceName)) {
+            if (access.containsKey(resourceName)) {
                 access = (Map<String, Object>) access.get(resourceName);
             }
         } else {
             access = (Map<String, Object>) jwt.getClaims().get(REALM_ACCESS);
         }
         List<String> roles = (List<String>) access.get(ROLES);
-
         return roles.stream()
                 .map(roleName -> ROLE_PREFIX + roleName)
                 .map(SimpleGrantedAuthority::new)
