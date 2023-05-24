@@ -1,8 +1,8 @@
 package com.msi.blogsec.api.exception;
 
+import org.zalando.problem.AbstractThrowableProblem;
 import org.zalando.problem.Status;
 import org.zalando.problem.StatusType;
-import org.zalando.problem.ThrowableProblem;
 
 /**
  * @author : goliathhagar
@@ -12,7 +12,7 @@ import org.zalando.problem.ThrowableProblem;
  * @created : 5/13/23, Saturday, 4:49 PM
  **/
 
-public class ResourceUnauthorizedAccessException extends ThrowableProblem {
+public class ResourceUnauthorizedAccessException extends AbstractThrowableProblem {
     @Override
     public String getTitle() {
         return Status.UNAUTHORIZED.name();
