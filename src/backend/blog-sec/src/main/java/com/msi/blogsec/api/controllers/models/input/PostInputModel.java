@@ -12,6 +12,9 @@ import jakarta.validation.constraints.NotNull;
  * @created : 5/12/23, Friday, 9:28 AM
  **/
 
-public record PostInputModel(@NotBlank String title, @NotBlank String content, @NotNull PostStatus status,
-                             @NotNull boolean commentAllowed, @NotNull String tags) {
+public record PostInputModel(@NotBlank String title,
+                             @NotBlank String content,
+                             @NotNull PostStatus status,
+                             boolean commentAllowed,
+                             @NotNull String tags) {
 }
