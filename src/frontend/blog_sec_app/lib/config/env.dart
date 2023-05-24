@@ -13,5 +13,5 @@ class Environment {
   static const String endSessionEndpoint = '/protocol/openid-connect/logout';
   static const String redirectEndpoint = '/login.html';
   static const String authUrl =
-      "https://${ssoUrl + openIdEndpoint}/auth?client_id=$clientId"; // TODO: change to https
+      "http://${ssoUrl + openIdEndpoint}/auth?client_id=$clientId"; // TODO: change to https
 }
