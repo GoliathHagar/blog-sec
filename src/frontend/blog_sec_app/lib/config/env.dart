@@ -1,9 +1,9 @@
 class Environment {
-  static const String clientId = 'blog-sec-app';
+  static const String clientId = 'blog-app-service';
   static const String clientSecret = '54CSwjITKrJiTRdHzThkzEbdVtQWZTFX';
-  static const String ssoUrl = 'localhost:9000/auth/realms/TryonPay';
-  static const String masterSsoUrl = 'localhost:9000/auth/realms/master';
-  static const String adminSsoUrl = 'localhost:9000/auth/admin/realms/TryonPay';
+  static const String ssoUrl = 'localhost:9000/realms/blog-sec';
+  static const String masterSsoUrl = 'localhost:9000/realms/master';
+  static const String adminSsoUrl = 'localhost:9000/admin/realms/blog-sec';
   static const String openIdEndpoint = '/protocol/openid-connect';
   static const String tokenEndpoint = '/protocol/openid-connect/token';
   static const String authEndpoint = '/protocol/openid-connect/auth';
