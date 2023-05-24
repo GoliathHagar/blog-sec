@@ -62,18 +62,6 @@ class AuthController extends GetxController {
   html.WindowBase? _popupWin;
 
   late AuthHandler _authHandler;
-
-  // AuthController()
-  //     : _authHandler = AuthHandler(
-  //         clientId: _clientId,
-  //         clientSecret: _clientSecret,
-  //         issuer: _domain,
-  //         redirectUrl: _redirectUrl,
-  //         scopes: _scopes,
-  //         audience: _audience,
-  //       ) {
-  //   init();
-  // }
   @override
   void onInit() {
     _authHandler = AuthHandler(
