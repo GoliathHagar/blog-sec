@@ -1,6 +1,7 @@
 package com.msi.blogsec.api.exception;
 
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -11,7 +12,6 @@ import org.zalando.problem.ThrowableProblem;
 import org.zalando.problem.spring.web.advice.ProblemHandling;
 import org.zalando.problem.violations.ConstraintViolationProblem;
 
-import javax.annotation.Nullable;
 import java.util.HashMap;
 
 /**
@@ -40,6 +40,8 @@ class ExceptionHandling implements ProblemHandling {
 
     @Override
     public ResponseEntity<Problem> process(ResponseEntity<Problem> entity, NativeWebRequest request) {
+        if (entity.getBody() == null)
+            return new ResponseEntity<>(null, null, HttpStatus.INTERNAL_SERVER_ERROR);
 
         final Problem problem = entity.getBody();
         final HttpHeaders headers = entity.getHeaders();
