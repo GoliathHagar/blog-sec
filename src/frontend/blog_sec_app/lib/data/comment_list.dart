@@ -6,23 +6,22 @@ class CommentList {
   CommentList({this.eEmbedded, this.lLinks, this.page});
 
   CommentList.fromJson(Map<String, dynamic> json) {
-    eEmbedded = json['_embedded'] != null
-        ? new Embedded.fromJson(json['_embedded'])
-        : null;
-    lLinks = json['_links'] != null ? new Links.fromJson(json['_links']) : null;
-    page = json['page'] != null ? new Page.fromJson(json['page']) : null;
+    eEmbedded =
+        json['_embedded'] != null ? Embedded.fromJson(json['_embedded']) : null;
+    lLinks = json['_links'] != null ? Links.fromJson(json['_links']) : null;
+    page = json['page'] != null ? Page.fromJson(json['page']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.eEmbedded != null) {
-      data['_embedded'] = this.eEmbedded!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (eEmbedded != null) {
+      data['_embedded'] = eEmbedded!.toJson();
     }
-    if (this.lLinks != null) {
-      data['_links'] = this.lLinks!.toJson();
+    if (lLinks != null) {
+      data['_links'] = lLinks!.toJson();
     }
-    if (this.page != null) {
-      data['page'] = this.page!.toJson();
+    if (page != null) {
+      data['page'] = page!.toJson();
     }
     return data;
   }
@@ -37,16 +36,16 @@ class Embedded {
     if (json['commentOutputModelList'] != null) {
       commentOutputModelList = <CommentOutputModelList>[];
       json['commentOutputModelList'].forEach((v) {
-        commentOutputModelList!.add(new CommentOutputModelList.fromJson(v));
+        commentOutputModelList!.add(CommentOutputModelList.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.commentOutputModelList != null) {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (commentOutputModelList != null) {
       data['commentOutputModelList'] =
-          this.commentOutputModelList!.map((v) => v.toJson()).toList();
+          commentOutputModelList!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -61,27 +60,27 @@ class CommentOutputModelList {
 
   CommentOutputModelList(
       {this.user,
-        this.content,
-        this.parentCommentId,
-        this.createdAt,
-        this.lLinks});
+      this.content,
+      this.parentCommentId,
+      this.createdAt,
+      this.lLinks});
 
   CommentOutputModelList.fromJson(Map<String, dynamic> json) {
     user = json['user'];
     content = json['content'];
     parentCommentId = json['parentCommentId'];
     createdAt = json['createdAt'];
-    lLinks = json['_links'] != null ? new Links.fromJson(json['_links']) : null;
+    lLinks = json['_links'] != null ? Links.fromJson(json['_links']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['user'] = this.user;
-    data['content'] = this.content;
-    data['parentCommentId'] = this.parentCommentId;
-    data['createdAt'] = this.createdAt;
-    if (this.lLinks != null) {
-      data['_links'] = this.lLinks!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['user'] = user;
+    data['content'] = content;
+    data['parentCommentId'] = parentCommentId;
+    data['createdAt'] = createdAt;
+    if (lLinks != null) {
+      data['_links'] = lLinks!.toJson();
     }
     return data;
   }
@@ -93,13 +92,13 @@ class Links {
   Links({this.post});
 
   Links.fromJson(Map<String, dynamic> json) {
-    post = json['post'] != null ? new Post.fromJson(json['post']) : null;
+    post = json['post'] != null ? Post.fromJson(json['post']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.post != null) {
-      data['post'] = this.post!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (post != null) {
+      data['post'] = post!.toJson();
     }
     return data;
   }
@@ -115,26 +114,8 @@ class Post {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['href'] = this.href;
-    return data;
-  }
-}
-
-class Links {
-  Post? self;
-
-  Links({this.self});
-
-  Links.fromJson(Map<String, dynamic> json) {
-    self = json['self'] != null ? new Post.fromJson(json['self']) : null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.self != null) {
-      data['self'] = this.self!.toJson();
-    }
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['href'] = href;
     return data;
   }
 }
@@ -155,11 +136,11 @@ class Page {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['size'] = this.size;
-    data['totalElements'] = this.totalElements;
-    data['totalPages'] = this.totalPages;
-    data['number'] = this.number;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['size'] = size;
+    data['totalElements'] = totalElements;
+    data['totalPages'] = totalPages;
+    data['number'] = number;
     return data;
   }
 }

@@ -1,5 +1,3 @@
-
-
 class PostList {
   Embedded? eEmbedded;
   Links? lLinks;
@@ -8,9 +6,8 @@ class PostList {
   PostList({this.eEmbedded, this.lLinks, this.page});
 
   PostList.fromJson(Map<String, dynamic> json) {
-    eEmbedded = json['_embedded'] != null
-        ? Embedded.fromJson(json['_embedded'])
-        : null;
+    eEmbedded =
+        json['_embedded'] != null ? Embedded.fromJson(json['_embedded']) : null;
     lLinks = json['_links'] != null ? Links.fromJson(json['_links']) : null;
     page = json['page'] != null ? Page.fromJson(json['page']) : null;
   }
@@ -61,22 +58,22 @@ class PostOutputModelList {
   String? status;
   bool? commentAllowed;
   String? tags;
-  Null? publishedAt;
+  String? publishedAt;
   String? updatedAt;
   String? createdAt;
   Links? lLinks;
 
   PostOutputModelList(
       {this.author,
-        this.title,
-        this.content,
-        this.status,
-        this.commentAllowed,
-        this.tags,
-        this.publishedAt,
-        this.updatedAt,
-        this.createdAt,
-        this.lLinks});
+      this.title,
+      this.content,
+      this.status,
+      this.commentAllowed,
+      this.tags,
+      this.publishedAt,
+      this.updatedAt,
+      this.createdAt,
+      this.lLinks});
 
   PostOutputModelList.fromJson(Map<String, dynamic> json) {
     author = json['author'];
@@ -118,7 +115,7 @@ class Links {
   Links.fromJson(Map<String, dynamic> json) {
     self = json['self'] != null ? Self.fromJson(json['self']) : null;
     comments =
-    json['comments'] != null ? Self.fromJson(json['comments']) : null;
+        json['comments'] != null ? Self.fromJson(json['comments']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -126,8 +123,8 @@ class Links {
     if (self != null) {
       data['self'] = self!.toJson();
     }
-    if (this.comments != null) {
-      data['comments'] = this.comments!.toJson();
+    if (comments != null) {
+      data['comments'] = comments!.toJson();
     }
     return data;
   }

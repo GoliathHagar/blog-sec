@@ -7,27 +7,27 @@ class Comment {
 
   Comment(
       {this.user,
-        this.content,
-        this.parentCommentId,
-        this.createdAt,
-        this.lLinks});
+      this.content,
+      this.parentCommentId,
+      this.createdAt,
+      this.lLinks});
 
   Comment.fromJson(Map<String, dynamic> json) {
     user = json['user'];
     content = json['content'];
     parentCommentId = json['parentCommentId'];
     createdAt = json['createdAt'];
-    lLinks = json['_links'] != null ? new Links.fromJson(json['_links']) : null;
+    lLinks = json['_links'] != null ? Links.fromJson(json['_links']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['user'] = this.user;
-    data['content'] = this.content;
-    data['parentCommentId'] = this.parentCommentId;
-    data['createdAt'] = this.createdAt;
-    if (this.lLinks != null) {
-      data['_links'] = this.lLinks!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['user'] = user;
+    data['content'] = content;
+    data['parentCommentId'] = parentCommentId;
+    data['createdAt'] = createdAt;
+    if (lLinks != null) {
+      data['_links'] = lLinks!.toJson();
     }
     return data;
   }
@@ -39,13 +39,13 @@ class Links {
   Links({this.post});
 
   Links.fromJson(Map<String, dynamic> json) {
-    post = json['post'] != null ? new Post.fromJson(json['post']) : null;
+    post = json['post'] != null ? Post.fromJson(json['post']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.post != null) {
-      data['post'] = this.post!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (post != null) {
+      data['post'] = post!.toJson();
     }
     return data;
   }
@@ -61,8 +61,8 @@ class Post {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['href'] = this.href;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['href'] = href;
     return data;
   }
 }

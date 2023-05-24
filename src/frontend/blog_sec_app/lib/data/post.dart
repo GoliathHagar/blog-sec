@@ -12,15 +12,15 @@ class Post {
 
   Post(
       {this.author,
-        this.title,
-        this.content,
-        this.status,
-        this.commentAllowed,
-        this.tags,
-        this.publishedAt,
-        this.updatedAt,
-        this.createdAt,
-        this.lLinks});
+      this.title,
+      this.content,
+      this.status,
+      this.commentAllowed,
+      this.tags,
+      this.publishedAt,
+      this.updatedAt,
+      this.createdAt,
+      this.lLinks});
 
   Post.fromJson(Map<String, dynamic> json) {
     author = json['author'];
@@ -32,22 +32,22 @@ class Post {
     publishedAt = json['publishedAt'];
     updatedAt = json['updatedAt'];
     createdAt = json['createdAt'];
-    lLinks = json['_links'] != null ? new Links.fromJson(json['_links']) : null;
+    lLinks = json['_links'] != null ? Links.fromJson(json['_links']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['author'] = this.author;
-    data['title'] = this.title;
-    data['content'] = this.content;
-    data['status'] = this.status;
-    data['commentAllowed'] = this.commentAllowed;
-    data['tags'] = this.tags;
-    data['publishedAt'] = this.publishedAt;
-    data['updatedAt'] = this.updatedAt;
-    data['createdAt'] = this.createdAt;
-    if (this.lLinks != null) {
-      data['_links'] = this.lLinks!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['author'] = author;
+    data['title'] = title;
+    data['content'] = content;
+    data['status'] = status;
+    data['commentAllowed'] = commentAllowed;
+    data['tags'] = tags;
+    data['publishedAt'] = publishedAt;
+    data['updatedAt'] = updatedAt;
+    data['createdAt'] = createdAt;
+    if (lLinks != null) {
+      data['_links'] = lLinks!.toJson();
     }
     return data;
   }
@@ -60,18 +60,18 @@ class Links {
   Links({this.self, this.comments});
 
   Links.fromJson(Map<String, dynamic> json) {
-    self = json['self'] != null ? new Self.fromJson(json['self']) : null;
+    self = json['self'] != null ? Self.fromJson(json['self']) : null;
     comments =
-    json['comments'] != null ? new Self.fromJson(json['comments']) : null;
+        json['comments'] != null ? Self.fromJson(json['comments']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.self != null) {
-      data['self'] = this.self!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (self != null) {
+      data['self'] = self!.toJson();
     }
-    if (this.comments != null) {
-      data['comments'] = this.comments!.toJson();
+    if (comments != null) {
+      data['comments'] = comments!.toJson();
     }
     return data;
   }
@@ -87,8 +87,8 @@ class Self {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['href'] = this.href;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['href'] = href;
     return data;
   }
 }
