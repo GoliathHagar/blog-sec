@@ -1,5 +1,8 @@
 import 'package:blog_sec_app/pages/home/home.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import 'config/app_routes.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,8 +13,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
+    return GetMaterialApp(
+      title: 'Blog Sec App',
+      routes: AppRoutes.list,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),

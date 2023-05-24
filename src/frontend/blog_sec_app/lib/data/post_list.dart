@@ -149,24 +149,6 @@ class Self {
   }
 }
 
-class Links {
-  Self? self;
-
-  Links({this.self});
-
-  Links.fromJson(Map<String, dynamic> json) {
-    self = json['self'] != null ? Self.fromJson(json['self']) : null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    if (self != null) {
-      data['self'] = self!.toJson();
-    }
-    return data;
-  }
-}
-
 class Page {
   int? size;
   int? totalElements;
