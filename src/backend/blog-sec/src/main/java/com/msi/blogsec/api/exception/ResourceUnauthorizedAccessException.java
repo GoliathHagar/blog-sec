@@ -1,6 +1,5 @@
 package com.msi.blogsec.api.exception;
 
-import org.springframework.data.annotation.Immutable;
 import org.zalando.problem.AbstractThrowableProblem;
 import org.zalando.problem.Status;
 import org.zalando.problem.StatusType;

@@ -10,7 +10,6 @@ import com.msi.blogsec.domain.CommentService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.http.MediaType;
@@ -36,21 +35,21 @@ public class CommentController {
     private final PagedResourcesAssembler<Comment> pagedResourcesAssembler;
 
 
-    @GetMapping("/{post_id}")
+    @GetMapping("/{postId}")
     @PreAuthorize(Authorities.PERMISSION_PERMIT_ALL)
-    public ResponseEntity<PagedModel<CommentOutputModel>> getCommentOnPost(@PathVariable String post_id, Pageable pageable){
+    public ResponseEntity<PagedModel<CommentOutputModel>> getCommentOnPost(@PathVariable String postId) {
 
-        Page<Comment> comments = commentService.getCommentsOnPost( post_id, pageable);
+        Page<Comment> comments = commentService.getCommentsOnPost(postId);
 
-        return ResponseEntity.ok(pagedResourcesAssembler.toModel(comments,assembler));
+        return ResponseEntity.ok(pagedResourcesAssembler.toModel(comments, assembler));
 
     }
 
-    @PostMapping("/{post_id}")
+    @PostMapping("/{postId}")
     @PreAuthorize(Authorities.CREATE_COMMENT)
-    public ResponseEntity<CommentOutputModel> addComment(@Valid @RequestBody CommentInputModel data, @PathVariable String post_id){
+    public ResponseEntity<CommentOutputModel> addComment(@Valid @RequestBody CommentInputModel data, @PathVariable String postId) {
 
-        Comment comment = commentService.addCommenttoPost(post_id, data);
+        Comment comment = commentService.addCommenttoPost(postId, data);
 
         return ResponseEntity.ok(assembler.toModel(comment));
 

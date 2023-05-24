@@ -35,6 +35,7 @@ public class KeycloakRealmRoleConverter implements Converter<Jwt, Collection<Gra
     private static final String ROLES = "roles";
     private static final String ROLE_PREFIX = "";
 
+
     @Override
     public Collection<GrantedAuthority> convert(Jwt jwt) {
         Map<String, Object> access;

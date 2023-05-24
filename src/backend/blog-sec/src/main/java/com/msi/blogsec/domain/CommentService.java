@@ -9,18 +9,14 @@ import com.msi.blogsec.domain.constants.AuthorStatus;
 import com.msi.blogsec.domain.constants.CommentStatus;
 import com.msi.blogsec.domain.constants.PostStatus;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 /**
  * @author : goliathhagar
@@ -39,22 +35,22 @@ public class CommentService {
     private final AuthorRepository authorRepository;
     private final SecurityHelper securityHelper;
 
-    public Page<Comment> getCommentsOnPost(String post_id, Pageable pageable) {
-        Post post = postRepository.findById(post_id).orElseThrow(()-> new ResourceNotFoundException("post"));
+    public Page<Comment> getCommentsOnPost(String postId) {
+        Post post = postRepository.findById(postId).orElseThrow(() -> new ResourceNotFoundException("post"));
 
         //post is not publish comments are block or remove
         if (!post.getStatus().equals(PostStatus.PUBLISHED)) throw new ResourceNotFoundException("post");
 
 
-       List<Comment> comments = post.getComments().stream()
-               .filter(comment -> comment.getStatus().equals(CommentStatus.AVAILABLE))
-               .sorted(Comparator.comparing(Comment::getCreatedAt)).toList();
+        List<Comment> comments = post.getComments().stream()
+                .filter(comment -> comment.getStatus().equals(CommentStatus.AVAILABLE))
+                .sorted(Comparator.comparing(Comment::getCreatedAt)).toList();
 
-       return new PageImpl<Comment>(comments);
+        return new PageImpl<>(comments);
     }
 
-    public Comment addCommenttoPost(String post_id, CommentInputModel data) {
-        Post post = postRepository.findById(post_id).orElseThrow(()-> new ResourceNotFoundException("post"));
+    public Comment addCommenttoPost(String postId, CommentInputModel data) {
+        Post post = postRepository.findById(postId).orElseThrow(() -> new ResourceNotFoundException("post"));
 
         if (!post.getStatus().equals(PostStatus.PUBLISHED)) throw new ResourceNotFoundException("post");
 

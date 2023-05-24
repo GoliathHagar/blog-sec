@@ -1,13 +1,9 @@
 package com.msi.blogsec.api.exception;
 
 import lombok.AllArgsConstructor;
-import org.springframework.data.annotation.Immutable;
 import org.zalando.problem.AbstractThrowableProblem;
 import org.zalando.problem.Status;
 import org.zalando.problem.StatusType;
-
-import java.net.URI;
-import java.util.Map;
 
 /**
  * @author : goliathhagar

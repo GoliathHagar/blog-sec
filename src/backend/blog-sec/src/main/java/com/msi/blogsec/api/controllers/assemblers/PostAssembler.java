@@ -3,9 +3,7 @@ package com.msi.blogsec.api.controllers.assemblers;
 import com.msi.blogsec.api.controllers.CommentController;
 import com.msi.blogsec.api.controllers.PostController;
 import com.msi.blogsec.api.controllers.models.output.PostOutputModel;
-import com.msi.blogsec.data.Author;
 import com.msi.blogsec.data.Post;
-import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 
@@ -50,7 +48,7 @@ public class PostAssembler extends RepresentationModelAssemblerSupport<Post, Pos
                 )
                 .add(
                         linkTo(
-                                methodOn(CommentController.class).getCommentOnPost(entity.getId(), Pageable.unpaged())
+                                methodOn(CommentController.class).getCommentOnPost(entity.getId())
                         ).withRel("comments")
                 );
     }
