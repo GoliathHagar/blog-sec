@@ -10,9 +10,6 @@ import org.zalando.problem.Problem;
 import org.zalando.problem.Status;
 import org.zalando.problem.ThrowableProblem;
 import org.zalando.problem.spring.web.advice.ProblemHandling;
-import org.zalando.problem.violations.ConstraintViolationProblem;
-
-import java.util.HashMap;
 
 /**
  * @author : goliathhagar
@@ -25,18 +22,10 @@ import java.util.HashMap;
 @ControllerAdvice
 class ExceptionHandling implements ProblemHandling {
     private static ThrowableProblem myProblem(Problem problem) {
-        final HashMap<String, Object> parameters = new HashMap<>();
-
-        if ((ConstraintViolationProblem) problem != null)
-            parameters.put("violations", ((ConstraintViolationProblem) problem).getViolations());
-        else
-            return Problem.builder().withStatus(Status.INTERNAL_SERVER_ERROR).build();
-
         return Problem.builder()
                 .withTitle(problem.getTitle())
                 .withDetail(problem.getDetail())
                 .withStatus(problem.getStatus())
-                .with("parameters", parameters)
                 .build();
     }
 
