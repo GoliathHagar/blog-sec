@@ -1,10 +1,12 @@
 package com.msi.blogsec.api.security;
+
 import com.msi.blogsec.api.constants.Endpoints;
 import com.msi.blogsec.api.security.helpers.KeycloakRealmRoleConverter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -14,7 +16,12 @@ import org.springframework.security.oauth2.jwt.*;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.zalando.problem.spring.web.advice.security.SecurityProblemSupport;
+
+import java.util.List;
 
 /**
  * @author : goliathhagar
@@ -55,6 +62,7 @@ public class SecurityConfiguration {
                                 .anyRequest().denyAll()
                 )
                 .csrf().and()
+                .cors().configurationSource(corsConfigurationSource()).and()
                 .oauth2ResourceServer()
                 .authenticationEntryPoint(problemSupport)
                 .accessDeniedHandler(problemSupport)
@@ -70,6 +78,25 @@ public class SecurityConfiguration {
 
         return jwtConverter;
     }
+
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+
+        configuration.setAllowedMethods(
+                List.of(
+                        HttpMethod.GET.name(),
+                        HttpMethod.PUT.name(),
+                        HttpMethod.POST.name(),
+                        HttpMethod.DELETE.name()
+                )
+        );
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration(Endpoints.ROOT + "/**", configuration.applyPermitDefaultValues());
+
+        return source;
+    }
+
 
     @Bean
     JwtDecoder jwtDecoder() {

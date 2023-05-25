@@ -11,7 +11,8 @@ class PostRepository {
   static const String _connectionString = "${AppConfig.apiUrl}/post";
   Uri uri = Uri.parse(_connectionString);
 
-  final Map<String, String> getHeaders = {"Accept": "application/json"};
+  final Map<String, String> getHeaders = {'Accept': 'application/json',
+                                          'Content-Type': 'application/json'};
   final Map<String, String> postHeaders = {'Content-Type': 'application/json'};
 
   static final PostRepository _api = PostRepository._instance();
@@ -129,7 +130,7 @@ class PostRepository {
   @override
   Future<PostList> fetchList() async {
     PostList accounts;
-    final Uri listUri = Uri.parse("$_connectionString/all");
+    final Uri listUri = Uri.parse(_connectionString);
     try {
       final response = await http.get(listUri, headers: getHeaders);
 
