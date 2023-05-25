@@ -1,5 +1,5 @@
 class Endpoints {
-  static const login = '/';
+  static const login = '/login';
   static const home = '/home';
   static const post = '/post';
   static const postList = '/admin/post';

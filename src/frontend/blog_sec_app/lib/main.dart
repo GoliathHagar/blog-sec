@@ -1,11 +1,12 @@
-import 'package:blog_sec_app/pages/home/home.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'config/app_routes.dart';
 import 'controllers/controller_binding.dart';
-
+import  'config/config_web.dart';
 void main() {
+    configureUrlStrategy();
+
   runApp(const MyApp());
 }
 
