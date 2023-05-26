@@ -28,13 +28,16 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: GetBuilder<AuthController>(builder: (authController) {
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: postList.eEmbedded?.postOutputModelList
-                  ?.map((e) => PostItem(post: e))
-                  .toList() ??
-              [],
-        );
+        return GetBuilder<HomeController>(builder: (homeController) {
+          print("posts ${postList.eEmbedded?.postOutputModelList?.length}");
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: postList.eEmbedded?.postOutputModelList
+                    ?.map((e) => PostItem(post: e))
+                    .toList() ??
+                [],
+          );
+        });
       }),
     );
   }

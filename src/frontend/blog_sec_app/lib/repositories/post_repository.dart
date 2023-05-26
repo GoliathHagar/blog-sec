@@ -15,7 +15,7 @@ class PostRepository {
     'Accept': 'application/json',
     'Content-Type': 'application/json'
   };
-  final Map<String, String> postHeaders = {};
+  final Map<String, String> postHeaders = {'Content-Type': 'application/json'};
 
   static final PostRepository _api = PostRepository._instance();
 
@@ -41,8 +41,6 @@ class PostRepository {
     try {
       final postBody = post.toJson();
 
-      print(postBody);
-      print(postHeaders);
       final response = await http.post(
         uri,
         body: jsonEncode(postBody),

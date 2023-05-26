@@ -4,10 +4,11 @@ services:
     build:
       context: ./
     restart: unless-stopped
-    network_mode: host
     depends_on:
       - blog-database
       - auth-server
+    ports:
+      - "8080:8080"
 
   blog-database:
     image: postgres:latest

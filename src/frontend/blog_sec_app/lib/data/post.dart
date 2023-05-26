@@ -40,9 +40,9 @@ class Post {
     data['author'] = author;
     data['title'] = title;
     data['content'] = content;
-    data['status'] = status;
+    data['status'] = status ?? "DRAFT";
     data['commentAllowed'] = commentAllowed;
-    data['tags'] = tags;
+    data['tags'] = tags ?? "DRAFT";
     data['publishedAt'] = publishedAt;
     data['updatedAt'] = updatedAt;
     data['createdAt'] = createdAt;
