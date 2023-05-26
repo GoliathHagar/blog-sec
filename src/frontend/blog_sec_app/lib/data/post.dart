@@ -46,9 +46,7 @@ class Post {
     data['publishedAt'] = publishedAt;
     data['updatedAt'] = updatedAt;
     data['createdAt'] = createdAt;
-    if (lLinks != null) {
-      data['_links'] = lLinks!.toJson();
-    }
+
     return data;
   }
 }

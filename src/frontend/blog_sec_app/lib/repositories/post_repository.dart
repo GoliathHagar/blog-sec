@@ -11,9 +11,11 @@ class PostRepository {
   static const String _connectionString = "${AppConfig.apiUrl}/post";
   Uri uri = Uri.parse(_connectionString);
 
-  final Map<String, String> getHeaders = {'Accept': 'application/json',
-                                          'Content-Type': 'application/json'};
-  final Map<String, String> postHeaders = {'Content-Type': 'application/json'};
+  final Map<String, String> getHeaders = {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json'
+  };
+  final Map<String, String> postHeaders = {};
 
   static final PostRepository _api = PostRepository._instance();
 
@@ -39,9 +41,11 @@ class PostRepository {
     try {
       final postBody = post.toJson();
 
+      print(postBody);
+      print(postHeaders);
       final response = await http.post(
         uri,
-        body: postBody,
+        body: jsonEncode(postBody),
         headers: postHeaders,
       );
 
@@ -50,10 +54,11 @@ class PostRepository {
         debugPrint('Success: ${response.body}\n');
       } else {
         throw Exception(
-            'Waring: Failed to create new Account | H: ${response.headers} | B: ${response.body} | CODE: ${response.statusCode}');
+            'Waring: Failed to create new Post | H: ${response.headers} | B: ${response.body} | CODE: ${response.statusCode}');
       }
     } catch (e) {
-      throw Exception('Error: Failed to create new Account | $e');
+      print(e);
+      throw Exception('Error: Failed to create new Post | $e');
     }
 
     return postResult;

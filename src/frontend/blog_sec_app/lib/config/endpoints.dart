@@ -4,4 +4,5 @@ class Endpoints {
   static const post = '/post';
   static const postList = '/admin/post';
   static const publish = '/admin/publish';
+  static const adminPostList = '/admin/posts';
 }

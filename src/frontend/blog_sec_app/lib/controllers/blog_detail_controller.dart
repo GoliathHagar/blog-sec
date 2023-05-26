@@ -1,22 +1,22 @@
 import 'dart:developer';
 
-import 'package:blog_sec_app/data/post_list.dart';
 import 'package:get/get.dart';
 
-import '../repositories/post_repository.dart';
+import '../../../data/post.dart';
+import '../../../repositories/post_repository.dart';
 
-class AdminLisController extends GetxController {
-  PostList postList = PostList();
-  final _api = PostRepository();
+class BlogDetailController extends GetxController {
+  Post postDetail = Post();
   bool _loading = false;
+  final _api = PostRepository();
 
   bool get loading => _loading;
 
-  Future<void> getPostList() async {
+  Future<void> getPostList(String postLink) async {
     _loading = true;
 
     try {
-      postList = await _api.fetchList();
+      postDetail = await _api.fetchOne(postLink);
     } catch (e) {
       if (int.parse(e.toString()) >= 400 || int.parse(e.toString()) < 500) {}
 

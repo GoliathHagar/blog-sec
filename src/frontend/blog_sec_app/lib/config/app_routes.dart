@@ -16,5 +16,6 @@ class AppRoutes {
     Endpoints.post: (_) => const BlogDetail(),
     Endpoints.postList: (_) => const AdminList(),
     Endpoints.publish: (_) => const Publish(),
+    Endpoints.adminPostList: (_) => const AdminList(),
   };
 }

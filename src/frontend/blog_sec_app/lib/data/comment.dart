@@ -34,12 +34,12 @@ class Comment {
 }
 
 class Links {
-  Post? post;
+  PostLink? post;
 
   Links({this.post});
 
   Links.fromJson(Map<String, dynamic> json) {
-    post = json['post'] != null ? Post.fromJson(json['post']) : null;
+    post = json['post'] != null ? PostLink.fromJson(json['post']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -51,12 +51,12 @@ class Links {
   }
 }
 
-class Post {
+class PostLink {
   String? href;
 
-  Post({this.href});
+  PostLink({this.href});
 
-  Post.fromJson(Map<String, dynamic> json) {
+  PostLink.fromJson(Map<String, dynamic> json) {
     href = json['href'];
   }
 
