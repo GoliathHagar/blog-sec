@@ -132,9 +132,8 @@ class PostRepository {
     return post;
   }
 
-  @override
   Future<PostList> fetchList() async {
-    PostList accounts;
+    PostList posts;
     final Uri listUri = Uri.parse(_connectionString);
     try {
       final response = await http.get(listUri, headers: getHeaders);
@@ -142,7 +141,7 @@ class PostRepository {
       if (response.statusCode >= 200 && response.statusCode < 300) {
         debugPrint("\n\n${response.body}");
 
-        accounts = PostList.fromJson(jsonDecode(response.body));
+        posts = PostList.fromJson(jsonDecode(response.body));
       } else {
         throw Exception(
             'Waring: Failed to load data from api | ${response.reasonPhrase}');
@@ -151,7 +150,7 @@ class PostRepository {
       throw Exception('Error: Failed to load data from api | $e');
     }
 
-    return accounts;
+    return posts;
   }
 
   @override
