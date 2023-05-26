@@ -1,15 +1,188 @@
-%! Author = goliathhagar
-%! Date = 3/21/23
+\documentclass[conference]{IEEEtran}
 
-% Preamble
-\documentclass[11pt]{article}
+\IEEEoverridecommandlockouts
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{float}
+\usepackage{dblfloatfix}
+\usepackage[sorting=none, style=nature]{biblatex}
+\addbibresource{ref.bib}
+\usepackage[hidelinks]{hyperref}
 
-% Packages
-\usepackage{amsmath}
 
-% Document
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \begin{document}
 
+\title{Secure Blog Hosting}
+
+\author{\IEEEauthorblockN{Cláudia Maia}
+\IEEEauthorblockA{up201905492@fc.up.pt}
+\and
+\IEEEauthorblockN{Junior Monteiro}
+\IEEEauthorblockA{up202209374@fc.up.pt}
+\and
+\IEEEauthorblockN{Tomás Vicente} 
+\IEEEauthorblockA{up201904609@fe.up.pt}
+}
+
+\maketitle
+\begin{abstract}
+O objetivo deste projeto é a construção de blog seguro, resistentes a ataques de segurança como: SQL injection, Cross-Site Scripting (XSS), Cross-Site Request Forgery (CSRF), acesso não autorizado e ataques de brute-force. Para isto, utilizamos vários mecanismos de defesa e um design da aplicação com a segurança em mente. Este relatório esta divido em: Introdução, Design, Implementação, Análise e Conclusão.
+\end{abstract}
 
 
+
+
+
+\section{Introdução}
+Este projeto tem como objetivo criar um blog seguro onde cada user deve ter um serviço de gestão de conteúdo pessoal que permita: criar, editar e excluir posts do blog da sua autoria. Para além disso, deve poder alterar o estado dos posts do blog entre rascunho (visível apenas para o proprietário) ou publicado (visível publicamente). Deve também poder gerir os comentários dos seus posts, como permitir ou não permitir os mesmos, e ainda remover comentários. Os posts devem suportar comentários de utilizadores registados ou não registados no blog (anónimos ou não).
+Os utilizadores devem se autenticar para poder gerir o seu conteúdo pessoal. Para a autenticação utilizamos o server keycloak.
+Por fim, os utilizadores apenas devem ter acesso ao seu conteúdo privado e tudo o que é publicado é visível por todos.
+
+
+\section{Design}
+O projeto foi desenvolvido seguindo uma arquitetura baseada em microserviços, utilizando as seguintes tecnologias principais: Keycloak, Spring Framework e Flutter.
+
+No lado do servidor, o Spring Framework foi selecionado como a base para o backend do blog. O Spring oferece um ambiente robusto para o desenvolvimento de aplicações Java, proporcionando suporte para segurança, controle de transações e integração com outros sistemas. A escolha do Spring permitiu a criação de uma API RESTful para atender às necessidades de comunicação entre o frontend e o backend.
+
+Para garantir a autenticação segura dos utilizadores, foi adotado o Keycloak como serviço de gestão de identidade e acesso. O Keycloak oferece recursos avançados de autenticação e autorização, baseado em tokens, permitindo o controle granular dos acessos e protegendo as informações confidenciais dos utilizadores.
+
+O frontend foi implementado utilizando o Flutter para construir a interface do utilizador do blog. O Flutter é um framework de desenvolvimento de aplicativos móveis open source que permite criar interfaces de utilizadores nativas para Android e iOS a partir de um único código-base. Utiliza a linguagem de programação Dart e oferece uma abordagem baseada em widgets para a criação de interfaces de usuário.
+
+A design do blog abrangeu os seguintes aspectos:
+\begin{itemize}
+    \item \textbf{Gestão de conteúdo:} Foi implementado um sistema de gestão de conteúdo que permite aos utilizadores criar, editar e excluir posts do blog. Os usuários têm a capacidade de definir o estado dos posts como rascunho ou publicado.
+    \item \textbf{Comentários:} O sistema de blog permite que os utilizadores adicionem comentários nos posts. Foram implementadas medidas de segurança para evitar spam e abusos nos comentários, como a possibilidade de habilitar ou desabilitar comentários em posts e a capacidade de remover comentários indesejados.
+    \item \textbf{Autenticação e access control:} Foi implementado um sistema de autenticação que exige que os utilizadores se autentiquem para aceder o serviço de gestão de conteúdo pessoal. A autenticação é baseada em senha e é realizada por meio da integração com o Keycloak. Apenas os proprietários têm acesso ao seu próprio serviço de gestão de conteúdo.
+    \item \textbf{Segurança da comunicação:} Foi assumido que é usada uma comunicação segura por meio do protocolo HTTPS para garantir a confidencialidade e integridade dos dados transmitidos entre o cliente e o servidor.    
+\end{itemize}
+
+
+Assim, podemos ver a arquitetura do blog assim como algumas características da tecnologias escolhidas na figura \cite{1}. Na figura \cite{2} verificamos também os atributos de cada objeto utilizado.
+%%%%%%%%%%%objeto????????
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.3]{images/estrutura.pdf}
+    \caption{Design do Blog \cite{1}}
+    \label{fig:Design do Blog}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.3]{images/atributos.pdf}
+    \caption{Atributos \cite{2}}
+    \label{fig:Atributos}
+\end{figure}
+\section{Implementação}
+
+Durante a implementação, foram seguidas boas práticas de desenvolvimento seguro, como o uso de recursos de criptografia adequados para proteger dados sensíveis e a implementação de access control granular para garantir que apenas utilizadores autorizados tenham acesso a recursos restritos.
+
+Além disso, foram realizados testes extensivos durante o desenvolvimento para verificar a funcionalidade correta do sistema e identificar possíveis vulnerabilidades de segurança. Também realizamos revisões de código e análises estáticas utilizando ferramentas como o SonarQube para identificar possíveis problemas de segurança no código-fonte.
+
+O projeto foi desenvolvido com um foco especial na segurança e confidencialidade, garantindo que o blog seja resistente a ataques externos e que os dados dos utilizadores sejam protegidos.
+
+\subsection{Authentication Server - Keycloak}
+Para fazer a autenticação de cada utilizador recorremos a um servidor keycloak que oferece uma forte autenticação e controlada, permite gerir os utilizadores e ainda
+\begin{itemize}
+    \item \textbf{Single-Sign On:} Os utilizadores autenticam-se no Keycloak e não nas aplicações individuais. Isso significa que as aplicações não precisam de ter formulários de login, autenticar utilizadores e armazenar utilizadores. Uma vez autenticados no Keycloak, os utilizadores não precisam de fazer login ou logout em cada aplicação diferente que utilize este serviço.
+    \item \textbf{Identity Brokering and Social Login:} Permite o login com redes sociais. Utiliza OpenID Connect ou SAML 2.0 IdPs.
+    \item \textbf{User Federation:} Tem suporte integrado para conectar com LDAP ou servidores de diretórios ativos já existentes.
+    \item \textbf{Standard Protocols:} É baseado em protocolos standard and oferece suporte a OpenID Connect, OAuth 2.0, e SAML 2.0.
+\end{itemize}
+Para além disto, oferece uma alta performance (rápido e escalável), permite personalizar o tema, é extensível e permite personalizar também as politicas de password.
+
+\subsection{Resource Server - Spring Boot REST}
+Tal como referido anteriormente, utilizamos o Spring Boot para a backend. Assim, fizemos esta escolha pelas seguintes características:
+\begin{itemize}
+    \item \textbf{Seguro:} O Spring possui um histórico comprovado de lidar rapidamente e de forma responsável com questões de segurança. Os colaboradores do Spring trabalham com profissionais de segurança para corrigir e testar quaisquer vulnerabilidades relatadas. As dependências de terceiros também são monitorizadas de perto e atualizações regulares são emitidas para ajudar a manter os seus dados e aplicativos o mais seguros possível. Além disso, o Spring Security facilita a integração com esquemas de segurança padrão da indústria e oferece soluções confiáveis que são seguras por padrão. 
+    \item \textbf{Produtivo:} O Spring Boot transforma a maneira como você aborda as tarefas de programação em Java, simplificando radicalmente a sua experiência. O Spring Boot combina elementos essenciais, como um contexto de aplicativo e um servidor web incorporado e autoconfigurado, para facilitar o desenvolvimento de microserviços.
+    \item \textbf{Rápido:} Com o Spring, notar-se-á um rápido início, desligamento rápido e execução otimizada, por padrão. Cada vez mais, os projetos do Spring também suportam o modelo de programação reativa (não bloqueante) para obter ainda mais eficiência. O Spring Boot ajuda os desenvolvedores a construir aplicativos com facilidade e com muito menos esforço do que outros paradigmas concorrentes. 
+\end{itemize}
+
+\subsection{UI - Flutter}
+O Flutter é um framework open source desenvolvido pelo Google para criar aplicações esteticamentes agradáveis, compiladas nativamente e multiplataforma a partir de um único código-fonte, assim como:
+\begin{itemize}
+    \item \textbf{Rápido:} O código do Flutter é compilado para código de máquina ARM ou Intel, além de JavaScript, para um desempenho rápido em qualquer dispositivo.
+    \item \textbf{Produtivo:} Permite atualizar o código e veja as mudanças quase instantaneamente, sem perder o estado do aplicativo.
+    \item \textbf{Flexível:} Permite controlar cada pixel para criar designs personalizados e adaptáveis que tenham uma ótima aparência e funcionem perfeitamente em qualquer tela.
+    \item \textbf{Fluxo de trabalho:} Permite um controle total sobre a sua base de código com testes automatizados, ferramentas para desenvolvedores e mais para construir aplicações de qualidade para produção.
+    \item \textbf{Confiável:} O Flutter é apoiado e usado pelo Google, confiado por marcas conhecidas em todo o mundo e mantido por uma comunidade global de desenvolvedores.
+    \item \textbf{Dart:} O Flutter é alimentado pelo Dart, uma linguagem otimizada para aplicações rápidas em qualquer plataforma.
+\end{itemize}
+
+\section{Analise}
+Para fazer a analise do blog foram utilizadas as ferramentas: SonarLint e SonarQube.
+
+%%%%%%%%%%
+\subsection{Garantias de segurança oferecidas pelas linguagens de programação} 
+O Dart é projetado para oferecer segurança em tempo de execução. Este possui um sistema de tipo estático que ajuda a identificar erros de tipo em tempo de compilação e fornece verificação de tipos em tempo de execução. Além disso, o Dart tem uma recolha de lixo automatizada para gerir a memória e evitar leaks de memória.
+
+\subsection{Padrões de design de software seguro}
+
+O projeto do aplicativo é feito com foco na segurança desde o início. São utilizados padrões de design seguros, como o princípio do menor privilégio, validação de entrada, autenticação e autorização adequadas, criptografia adequada para proteção de dados sensíveis, entre outros. As entradas de dados fornecidas pelos usuários são devidamente validadas e sanitizadas para prevenir ataques de injeção, como ataques de SQL Injection e Cross-Site Scripting (XSS).
+
+\subsection{Análise de segurança das dependências e bibliotecas externas}
+Foram realizadas análises de segurança das dependências e bibliotecas externas utilizadas no projeto. Utilizando ferramentas como o SonarQube, foram verificadas vulnerabilidades conhecidas, incluindo vulnerabilidades de segurança, e medidas foram tomadas para atualizar ou substituir as dependências afetadas. Além disso, acompanhamos ativamente as atualizações de segurança dessas bibliotecas para garantir que quaisquer problemas descobertos sejam abordados prontamente.
+
+\subsection{Mitigações adotadas para vulnerabilidades comuns}
+Para lidar com vulnerabilidades comuns, foram implementadas várias mitigações de segurança. Isso inclui a validação adequada de entradas de usuário para evitar injeção de código, o uso de técnicas de criptografia para proteger dados sensíveis em repouso e em trânsito, a implementação de controle de acesso granular para evitar acesso não autorizado, e a adoção de práticas de segurança recomendadas para prevenir ataques de scripting malicioso, como XSS e CSRF. Todas as dependências e bibliotecas externas são mantidas atualizadas para incorporar as correções de segurança mais recentes. Isso ajuda a garantir que as vulnerabilidades conhecidas sejam corrigidas e que o aplicativo esteja protegido contra ameaças conhecidas.
+%%%%%%%%%%%%Nao esta feito%%%%%%%%%%%%%%
+\subsection{Metodologias de testes de segurança (manuais ou automatizados) adotadas} 
+Para garantir a segurança do sistema, foram aplicadas metodologias de testes de segurança. Isso inclui testes manuais como testes de penetração para identificar possíveis vulnerabilidades e explorar falhas de segurança. Além disso, foram utilizadas ferramentas de teste de segurança automatizadas para verificar a conformidade com as melhores práticas de segurança e para identificar possíveis problemas, como scans de vulnerabilidades, análise de código estático e load testing.
+Assim, podemos verificar na figura \cite{3} o resultado do pentest realizado com o nuclei e templates para o Spring Boot.
+%%%%%%%%%%%%%%%%meter image pentest%%%%%%%%
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.3]{images/nuclei1.png}
+    \caption{Pentest \cite{3}}
+    \label{fig:Pentest}
+\end{figure}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Ferramentas de análise de código fonte integradas no desenvolvimento}
+Utilizamos o SonarQube para análise estática de código-fonte em busca de vulnerabilidades de segurança, bugs e más práticas de programação. O SonarQube ajuda a identificar problemas de segurança no código-fonte e fornece recomendações para corrigi-los.
+Essas medidas ajudam a garantir que a aplicação seja desenvolvida de acordo com boas práticas de segurança e que sejam tomadas as devidas precauções para mitigar vulnerabilidades conhecidas. No entanto, é importante ressaltar que a segurança de um sistema é um processo contínuo e exige monitoramento e atualizações regulares para se manter atualizado em relação às ameaças emergentes.
+Podemos assim, verificar o progresso da figura \cite{4} para a figura \cite{5}, onde foram corrigido 2 bugs e code smells, para além disso esta ferramenta permite ainda verificar qual o bug e onde no código, como podemos ver pela figura \cite{6}.
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.25]{images/test-app-1.png}
+    \caption{SonarQube \cite{4}}
+    \label{fig:SonarQube}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.25]{images/test-app-4.png}
+    \caption{SonarQube \cite{5}}
+    \label{fig:SonarQube}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.25]{images/test-app-2.png}
+    \caption{SonarQube \cite{6}}
+    \label{fig:SonarQube}
+\end{figure}
+
+\section{Conclusão}
+Concluindo, com o desenvolvimento deste projeto, aprendemos a importância de iniciar a implementação com segurança em mente desde o início. Ao considerarmos a segurança durante o design e a implementação do código, podemos reduzir a ocorrência de problemas futuros e evitar a necessidade de corrigir erros de segurança posteriormente. Além disso, compreendemos a importância de realizar análises estáticas de código e testes de penetração para identificar possíveis vulnerabilidades que possam ter escapado durante a fase de design. Essas práticas permitem-nos fortalecer a segurança do nosso sistema e garantir a proteção dos dados e a confiança dos usuários.
+
+\begin{thebibliography}{1}
+   \bibitem{1} D. P. Acharya, “An In-Depth Guide on the Types of Blockchain Nodes,” Geekflare, Dec. 2022, [Online]. Available: \href{https://geekflare.com/blockchain-nodes-guide/}{here}.
+
+
+
+
+  % https://www.keycloak.org/
+  %https://plugins.jetbrains.com/plugin/7973-sonarlint
+  %https://en.wikipedia.org/wiki/SonarQube
+  %https://www.sonarsource.com/products/sonarlint/features/connected-mode/
+  %https://flutter.dev/
+\end{thebibliography}
 \end{document}
+
+
