@@ -8,7 +8,7 @@ class PostList {
   PostList({this.eEmbedded, this.lLinks, this.page});
 
   PostList.fromJson(Map<String, dynamic> json) {
-    eEmbedded =
+      eEmbedded =
         json['_embedded'] != null ? Embedded.fromJson(json['_embedded']) : null;
     lLinks = json['_links'] != null ? Links.fromJson(json['_links']) : null;
     page = json['page'] != null ? Page.fromJson(json['page']) : null;

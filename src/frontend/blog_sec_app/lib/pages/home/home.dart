@@ -29,13 +29,18 @@ class _HomeState extends State<Home> {
     return Scaffold(
       body: GetBuilder<AuthController>(builder: (authController) {
         return GetBuilder<HomeController>(builder: (homeController) {
-          print("posts ${postList.eEmbedded?.postOutputModelList?.length}");
           return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: postList.eEmbedded?.postOutputModelList
-                    ?.map((e) => PostItem(post: e))
-                    .toList() ??
-                [],
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Text("Posts"),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: postList.eEmbedded?.postOutputModelList
+                        ?.map((e) => PostItem(post: e))
+                        .toList() ??
+                    [const Text("No Post Available")],
+              ),
+            ],
           );
         });
       }),
