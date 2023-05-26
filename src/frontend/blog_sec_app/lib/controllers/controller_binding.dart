@@ -16,7 +16,7 @@ class AppBinding implements Bindings {
     Get.lazyPut(() => HomeController());
     Get.lazyPut(() => BlogDetailController());
     Get.lazyPut(() => AdmniListPageController());
-    Get.lazyPut(() => PublishController());
+    Get.put(PublishController(), permanent: true);
     Get.lazyPut(() => PublishPageController());
   }
 }
